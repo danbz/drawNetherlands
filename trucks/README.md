@@ -10,4 +10,4 @@ ofxCameraSaveLoad https://github.com/roymacdonald/ofxCameraSaveLoad
 
 ![screenshot](screenshot.png)
 
-video on vimeo https://vimeo.com/338388312
+video on vimeo https://vimeo.com/338398783
