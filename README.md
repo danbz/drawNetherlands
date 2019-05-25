@@ -7,3 +7,6 @@ generative sketches inspired by landscape observations
 * train windows
 * from the air
 * tankers at sea
+
+![screenshot](trucks.png)
+trucks screenshot
