@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxCameraSaveLoad.h"
 
 class vehicle{
     
@@ -37,4 +38,5 @@ class ofApp : public ofBaseApp{
 		
     ofEasyCam cam;
     vector<vehicle> vehicles;
+    bool b_showGui;
 };
