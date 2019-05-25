@@ -17,7 +17,11 @@ void ofApp::setup(){
     cam.setGlobalPosition(85, 10, 85);
     
     ofxLoadCamera(cam,  "ofEasyCamSettings" );
-
+    
+    // light setup
+    light.setGlobalPosition(0, 500, 2000);
+    light.setAreaLight(100, 100);
+    light.setAmbientColor(ofColor(55));
 }
 
 //--------------------------------------------------------------
@@ -30,6 +34,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofEnableDepthTest();
+    light.enable();
     
     cam.begin();
     for (int i=0; i < vehicles.size(); i++){
@@ -37,6 +42,7 @@ void ofApp::draw(){
     }
     
     cam.end();
+    light.disable();
     ofDisableDepthTest();
     
     if (b_showGui){
@@ -143,7 +149,7 @@ vehicle::vehicle(){
     float maxSpeed = 5.0;
     float minWidth = 3;
     float minHeight = 3;
-    boxColor = ofColor(ofRandom(100)+55);
+    boxColor = ofColor(ofRandom(150)+55);
     box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight, size);
     box.setPosition(ofRandom(laneWidth) * size, box.getHeight()/2, farClip);
     speed = ofRandom(maxSpeed);
