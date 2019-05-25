@@ -15,6 +15,8 @@ void ofApp::setup(){
     ofQuaternion  camOrientation =  ofQuaternion( -0.05, 0.37, 0.18, 0.92);
     cam.setGlobalOrientation(camOrientation);
     cam.setGlobalPosition(85, 10, 85);
+    
+    ofxLoadCamera(cam,  "ofEasyCamSettings");
 
 }
 
