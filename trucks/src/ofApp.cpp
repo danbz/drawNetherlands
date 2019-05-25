@@ -2,8 +2,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    int maxVehicles = 1000;
-    b_showGui = true;
+    int maxVehicles = 500;
+    b_showGui = false;
     
     for (int i=0;i<maxVehicles;i++){
         vehicle newTruck;
@@ -16,7 +16,7 @@ void ofApp::setup(){
     cam.setGlobalOrientation(camOrientation);
     cam.setGlobalPosition(85, 10, 85);
     
-    ofxLoadCamera(cam,  "ofEasyCamSettings");
+    ofxLoadCamera(cam,  "ofEasyCamSettings" );
 
 }
 
@@ -138,11 +138,13 @@ vehicle::vehicle(){
     int nearClip = 2000;
     int laneWidth = 6;
     float size = 10.0;
-    float widthRatio = 0.5;
-    float heightratio = 0.7;
+    float widthRatio = 0.4;
+    float heightRatio = 0.5;
     float maxSpeed = 5.0;
+    float minWidth = 3;
+    float minHeight = 3;
     boxColor = ofColor(ofRandom(100)+55);
-    box.set(ofRandom(size * widthRatio), ofRandom(size * widthRatio), size);
+    box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight, size);
     box.setPosition(ofRandom(laneWidth) * size, box.getHeight()/2, farClip);
     speed = ofRandom(maxSpeed);
     for (int i =0;i < 6; i ++){
