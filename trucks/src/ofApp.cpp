@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     int maxVehicles = 500;
-    int maxScenery = 2000;
+    int maxScenery = 1000;
     b_showGui = false;
     
     for (int i=0;i<maxVehicles;i++){
@@ -30,7 +30,7 @@ void ofApp::setup(){
     light.setAmbientColor(ofColor(55));
     
     ofSetFrameRate(30);
-
+    
 }
 
 //--------------------------------------------------------------
@@ -64,9 +64,9 @@ void ofApp::draw(){
     if (b_showGui){
         string camPos =   ofToString(cam.getGlobalPosition());
         string camOrient = ofToString(cam.getGlobalOrientation());
-       // ofDrawBitmapString( cam.getGlobalPosition() , 10, 10);
+        // ofDrawBitmapString( cam.getGlobalPosition() , 10, 10);
         ofDrawBitmapString(ofGetFrameRate(), 10, 10);
-       // cout << "pos " << cam.getGlobalPosition() << " orient " << cam.getGlobalOrientation() << endl;
+        // cout << "pos " << cam.getGlobalPosition() << " orient " << cam.getGlobalOrientation() << endl;
     }
 }
 
@@ -89,12 +89,12 @@ void ofApp::keyPressed(int key){
             
         case 's':
             cout << "saving cam position" << endl;
-             ofxSaveCamera(cam, "ofEasyCamSettings");
+            ofxSaveCamera(cam, "ofEasyCamSettings");
             break;
             
         case 'l':
             cout << "loading cam position" << endl;
-             ofxLoadCamera(cam,  "ofEasyCamSettings");
+            ofxLoadCamera(cam,  "ofEasyCamSettings");
             break;
             
         default:
@@ -209,25 +209,27 @@ void vehicle::updateLocation(){
 
 scenery::scenery(){
     // scenery constructor
-    int farClip = -2000;
-    int nearClip = 2000;
-    int sceneryLanes = 20;
-    float size = 100.0;
-    float widthRatio = 0.1;
-    float heightRatio = 0.5;
-    float speed = 1.0;
-    float spread = abs(farClip) + nearClip;
-    float minWidth = 3;
-    float minHeight = 3;
-    float boxbaseColor = ofRandom(50) + 10;
-    float colorOffset = 50;
-    boxColor = ofColor(boxbaseColor, boxbaseColor + ofRandom(colorOffset), boxbaseColor);
-    box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight, ofRandom(size)+ 2);
-    box.setPosition(- ofRandom(sceneryLanes) * size, box.getHeight()/2, ofRandom(spread));
-    for (int i =0;i < 6; i ++){
-        box.setSideColor(i, boxColor);
-        
-    }
+    speed = 2.0;
+//    int farClip = -2000;
+//    int nearClip = 2000;
+//    int sceneryLanes = 20;
+//    float size = 100.0;
+//    float widthRatio = 0.1;
+//    float heightRatio = 0.5;
+//    float spread = abs(farClip) + nearClip;
+//    float minWidth = 3;
+//    float minHeight = 3;
+//    float boxbaseColor = ofRandom(50) + 10;
+//    float colorOffset = 1;
+//    float xPosition = ofRandom(sceneryLanes) * size;
+//    boxColor = ofColor(boxbaseColor, boxbaseColor + ofRandom(colorOffset), boxbaseColor);
+//    box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight * ofRandom(xPosition/20.0), ofRandom(size)+ 2 * ofRandom(xPosition/20.0));
+//    box.setPosition(- xPosition, box.getHeight()/2, ofRandom(spread));
+//    for (int i =0;i < 6; i ++){
+//        box.setSideColor(i, boxColor);
+//
+//    }
+    setNewPosition();
 }
 
 //--------------------------------------------------------------
@@ -254,10 +256,35 @@ void scenery::updateLocation(){
     float size = 100.0;
     
     if (box.getPosition().z <farClip){
-        box.setPosition(- ofRandom(sceneryLanes) * size, box.getPosition().y, nearClip);
+        setNewPosition();
     }
     box.setPosition(box.getPosition().x, box.getPosition().y, box.getPosition().z - speed);
 }
 
 //--------------------------------------------------------------
 
+void scenery::setNewPosition(){
+    
+    int farClip = -2000;
+    int nearClip = 2000;
+    int sceneryLanes = 40;
+    float size = 80.0;
+    float widthRatio = 0.1;
+    float heightRatio = 0.4;
+    float spread = abs(farClip) + nearClip;
+    float minWidth = 3;
+    float minHeight = 3;
+    float boxbaseColor = ofRandom(50) + 20;
+    float colorOffset = 20;
+    float xPosition = ofRandom(sceneryLanes) * size;
+    boxColor = ofColor(boxbaseColor, boxbaseColor + ofRandom(colorOffset), boxbaseColor);
+    box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight * ofRandom(xPosition/20.0), ofRandom(size)+ 2 * ofRandom(xPosition/20.0));
+    box.setPosition(- xPosition, box.getHeight()/2, ofRandom(spread));
+    for (int i =0;i < 6; i ++){
+        box.setSideColor(i, boxColor);
+        
+    }
+}
+
+//--------------------------------------------------------------
+    

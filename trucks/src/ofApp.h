@@ -25,6 +25,7 @@ public:
     float speed;
     void draw();
     void updateLocation();
+    void setNewPosition();
     scenery(); // constructor
     ~scenery(); // destructor
 };
