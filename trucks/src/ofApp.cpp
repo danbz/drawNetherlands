@@ -28,6 +28,8 @@ void ofApp::setup(){
     light.setGlobalPosition(0, 500, 2000);
     light.setAreaLight(100, 100);
     light.setAmbientColor(ofColor(55));
+    
+    ofSetFrameRate(30);
 
 }
 
@@ -62,8 +64,9 @@ void ofApp::draw(){
     if (b_showGui){
         string camPos =   ofToString(cam.getGlobalPosition());
         string camOrient = ofToString(cam.getGlobalOrientation());
-        ofDrawBitmapString( cam.getGlobalPosition() , 10, 10);
-        cout << "pos " << cam.getGlobalPosition() << " orient " << cam.getGlobalOrientation() << endl;
+       // ofDrawBitmapString( cam.getGlobalPosition() , 10, 10);
+        ofDrawBitmapString(ofGetFrameRate(), 10, 10);
+       // cout << "pos " << cam.getGlobalPosition() << " orient " << cam.getGlobalOrientation() << endl;
     }
 }
 
@@ -212,12 +215,13 @@ scenery::scenery(){
     float size = 100.0;
     float widthRatio = 0.1;
     float heightRatio = 0.5;
-    float speed = 2.0;
+    float speed = 1.0;
     float spread = abs(farClip) + nearClip;
     float minWidth = 3;
     float minHeight = 3;
     float boxbaseColor = ofRandom(50) + 10;
-    boxColor = ofColor(boxbaseColor, boxbaseColor + 50, boxbaseColor);
+    float colorOffset = 50;
+    boxColor = ofColor(boxbaseColor, boxbaseColor + ofRandom(colorOffset), boxbaseColor);
     box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight, ofRandom(size)+ 2);
     box.setPosition(- ofRandom(sceneryLanes) * size, box.getHeight()/2, ofRandom(spread));
     for (int i =0;i < 6; i ++){
