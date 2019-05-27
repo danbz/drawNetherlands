@@ -8,6 +8,8 @@ as seen from the train, Schiphol to Amsterdam Central
 
 ofxCameraSaveLoad https://github.com/roymacdonald/ofxCameraSaveLoad
 
-![screenshot](screenshot.png)
+![screenshot](screenshot1.png)
+![screenshot](screenshot2.png)
+
 
 video on vimeo https://vimeo.com/338398783
