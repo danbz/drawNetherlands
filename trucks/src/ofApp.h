@@ -16,6 +16,19 @@ public:
     ~vehicle(); // destructor
 };
 
+class scenery{
+    
+public:
+    ofBoxPrimitive box;
+    ofColor boxColor;
+    ofPoint location;
+    float speed;
+    void draw();
+    void updateLocation();
+    scenery(); // constructor
+    ~scenery(); // destructor
+};
+
 class ofApp : public ofBaseApp{
 
     
@@ -38,6 +51,7 @@ class ofApp : public ofBaseApp{
 		
     ofEasyCam cam;
     vector<vehicle> vehicles;
+    vector<scenery> landscape;
     bool b_showGui;
     ofLight light;
 };
