@@ -1,9 +1,25 @@
+/*
+ Project Title: drawNetherlands : trucks
+ Description:
+ ©Daniel Buzzo 2019
+ dan@buzzo.com
+ http://buzzo.com
+ https://github.com/danbz
+ */
+
+
 #include "ofApp.h"
+
+#define sceneWidth 4000
+#define laneWidth 6
+#define truckSize 10
 
 //--------------------------------------------------------------
 void ofApp::setup(){
     int maxVehicles = 500;
     int maxScenery = 1000;
+    //sceneWidth = sceneDepth = 4000;
+    roadWidth = laneWidth * truckSize * 2 + truckSize;
     b_showGui = false;
     
     for (int i=0;i<maxVehicles;i++){
@@ -26,11 +42,28 @@ void ofApp::setup(){
     
     // light setup
     light.setGlobalPosition(0, 500, 2000);
-    light.setAreaLight(100, 100);
+    light.setAreaLight(200, 200);
     light.setAmbientColor(ofColor(55));
     
     ofSetFrameRate(30);
     
+    ground.set( sceneWidth,  sceneWidth, 1 );
+    ground.setPosition( -sceneWidth/2, 0, 0 );
+    ground.rotateDeg(90, 1, 0, 0);
+    ofColor groundColor = (155, ofRandom(100)+155, 155);
+    for (int i =0;i < 6; i ++){
+        ground.setSideColor(i, groundColor);
+        
+    }
+    road.set( sceneWidth, roadWidth, 2);
+    road.setPosition( 0, -2 , 0 );
+    road.rotateDeg( 90, 1, 0, 0 );
+    road.rotateDeg( 90, 0, 1, 0 );
+    ofColor roadColor = (75);
+    for (int i =0;i < 6; i ++){
+        road.setSideColor(i, roadColor);
+        
+    }
 }
 
 //--------------------------------------------------------------
@@ -47,8 +80,10 @@ void ofApp::update(){
 void ofApp::draw(){
     ofEnableDepthTest();
     light.enable();
-    
     cam.begin();
+    
+    ground.draw();
+    road.draw();
     for (int i=0; i < vehicles.size(); i++){
         vehicles[i].draw();
     }
@@ -156,10 +191,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 vehicle::vehicle(){
     // vehicle constructor
-    int farClip = -2000;
-    int nearClip = 2000;
-    int laneWidth = 6;
-    float size = 10.0;
+    int farClip = -sceneWidth/2;
+    int nearClip = sceneWidth/2;
     float widthRatio = 0.4;
     float heightRatio = 0.5;
     float maxSpeed = 5.0;
@@ -167,8 +200,8 @@ vehicle::vehicle(){
     float minWidth = 3;
     float minHeight = 3;
     boxColor = ofColor(ofRandom(150)+55);
-    box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight, size);
-    box.setPosition(ofRandom(laneWidth) * size, box.getHeight()/2, farClip);
+    box.set(ofRandom(truckSize * widthRatio)+ minWidth, ofRandom(truckSize * heightRatio)+minHeight, truckSize);
+    box.setPosition(ofRandom(laneWidth) * truckSize, box.getHeight()/2, farClip);
     speed = ofRandom(maxSpeed)+minSpeed;
     for (int i =0;i < 6; i ++){
         box.setSideColor(i, boxColor);
@@ -194,13 +227,10 @@ void vehicle::draw(){
 //--------------------------------------------------------------
 
 void vehicle::updateLocation(){
-    int farClip = -2000;
-    int nearClip = 2000;
-    int laneWidth = 6;
-    float size = 10.0;
-    
+    int farClip = -sceneWidth/2;
+    int nearClip = sceneWidth/2;
     if (box.getPosition().z > nearClip){
-        box.setPosition(ofRandom(laneWidth) * size, box.getPosition().y, farClip);
+        box.setPosition(ofRandom(laneWidth) * truckSize, box.getPosition().y, farClip);
     }
     box.setPosition(box.getPosition().x, box.getPosition().y, box.getPosition().z + speed);
 }
@@ -242,16 +272,17 @@ scenery::~scenery(){
 
 void scenery::draw(){
     
-    box.draw();
-    // box.drawWireframe();
+   // box.draw();
+    //box.drawWireframe();
+    box.drawVertices();
     
 }
 
 //--------------------------------------------------------------
 
 void scenery::updateLocation(){
-    int farClip = -2000;
-    int nearClip = 2000;
+    int farClip = -sceneWidth/2;
+    int nearClip = sceneWidth/2;
     int sceneryLanes = 20;
     float size = 100.0;
     
@@ -265,8 +296,8 @@ void scenery::updateLocation(){
 
 void scenery::setNewPosition(){
     
-    int farClip = -2000;
-    int nearClip = 2000;
+    int farClip = -sceneWidth/2;
+    int nearClip = sceneWidth/2;
     int sceneryLanes = 40;
     float size = 80.0;
     float widthRatio = 0.1;
@@ -279,7 +310,7 @@ void scenery::setNewPosition(){
     float xPosition = ofRandom(sceneryLanes) * size;
     boxColor = ofColor(boxbaseColor, boxbaseColor + ofRandom(colorOffset), boxbaseColor);
     box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight * ofRandom(xPosition/20.0), ofRandom(size)+ 2 * ofRandom(xPosition/20.0));
-    box.setPosition(- xPosition, box.getHeight()/2, ofRandom(spread));
+    box.setPosition(- xPosition, box.getHeight()/2, ofRandom(spread)+spread/2);
     for (int i =0;i < 6; i ++){
         box.setSideColor(i, boxColor);
         
