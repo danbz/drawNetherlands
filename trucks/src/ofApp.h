@@ -1,3 +1,12 @@
+/*
+ Project Title: drawNetherlands : trucks
+ Description:
+ ©Daniel Buzzo 2019
+ dan@buzzo.com
+ http://buzzo.com
+ https://github.com/danbz
+ */
+
 #pragma once
 
 #include "ofMain.h"
@@ -14,6 +23,20 @@ public:
     void updateLocation();
     vehicle(); // constructor
     ~vehicle(); // destructor
+};
+
+class scenery{
+    
+public:
+    ofBoxPrimitive box;
+    ofColor boxColor;
+    ofPoint location;
+    float speed;
+    void draw();
+    void updateLocation();
+    void setNewPosition();
+    scenery(); // constructor
+    ~scenery(); // destructor
 };
 
 class ofApp : public ofBaseApp{
@@ -38,6 +61,9 @@ class ofApp : public ofBaseApp{
 		
     ofEasyCam cam;
     vector<vehicle> vehicles;
+    vector<scenery> landscape;
     bool b_showGui;
     ofLight light;
+    ofBoxPrimitive ground, road;
+    int sceneWidth, sceneDepth, roadWidth;
 };
