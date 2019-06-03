@@ -272,9 +272,9 @@ scenery::~scenery(){
 
 void scenery::draw(){
     
-   // box.draw();
-    //box.drawWireframe();
-    box.drawVertices();
+    box.draw();
+   // box.drawWireframe();
+   // box.drawVertices();
     
 }
 
