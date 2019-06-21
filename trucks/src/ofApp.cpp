@@ -200,6 +200,11 @@ vehicle::vehicle(){
     float minWidth = 3;
     float minHeight = 3;
     boxColor = ofColor(ofRandom(150)+55);
+    if (ofRandom(500) > 499){
+       boxColor = ofColor(ofRandom(200)+55, 50, 50); // random red vehicle as 1 in 1000
+        maxSpeed = 2.5; // make it fast
+        minSpeed = 1.5;
+    }
     box.set(ofRandom(truckSize * widthRatio)+ minWidth, ofRandom(truckSize * heightRatio)+minHeight, truckSize);
     box.setPosition(ofRandom(laneWidth) * truckSize, box.getHeight()/2, farClip);
     speed = ofRandom(maxSpeed)+minSpeed;
