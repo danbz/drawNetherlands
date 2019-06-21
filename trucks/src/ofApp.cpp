@@ -45,7 +45,7 @@ void ofApp::setup(){
     light.setAreaLight(200, 200);
     light.setAmbientColor(ofColor(55));
     
-    ofSetFrameRate(30);
+    ofSetFrameRate(60);
     
     ground.set( sceneWidth,  sceneWidth, 1 );
     ground.setPosition( -sceneWidth/2, 0, 0 );
@@ -195,8 +195,8 @@ vehicle::vehicle(){
     int nearClip = sceneWidth/2;
     float widthRatio = 0.4;
     float heightRatio = 0.5;
-    float maxSpeed = 5.0;
-    float minSpeed = 0.25;
+    float maxSpeed = 2.2;
+    float minSpeed = 0.1;
     float minWidth = 3;
     float minHeight = 3;
     boxColor = ofColor(ofRandom(150)+55);
@@ -239,7 +239,7 @@ void vehicle::updateLocation(){
 
 scenery::scenery(){
     // scenery constructor
-    speed = 2.0;
+    speed = 1.0;
 //    int farClip = -2000;
 //    int nearClip = 2000;
 //    int sceneryLanes = 20;
