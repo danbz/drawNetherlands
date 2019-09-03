@@ -8,7 +8,6 @@ as seen from KLM embrayer BRS-AMS
 
 ofxCameraSaveLoad https://github.com/roymacdonald/ofxCameraSaveLoad
 
-![screenshot](screenshot1.png)
-![screenshot](screenshot2.png)
+![screenshot](screenshot.png)
 
 
