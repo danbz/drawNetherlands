@@ -40,7 +40,7 @@ void ofApp::setup(){
     cam.setGlobalOrientation(camOrientation);
     cam.setGlobalPosition(85, 10, 85);
     
-    // ofxLoadCamera(cam,  "ofEasyCamSettings" );
+     ofxLoadCamera(cam,  "ofEasyCamSettings" );
     
     // light setup
     light.setGlobalPosition(0, 500, 2000);
@@ -125,13 +125,13 @@ void ofApp::keyPressed(int key){
             break;
             
         case 's':
-//            cout << "saving cam position" << endl;
-//            ofxSaveCamera(cam, "ofEasyCamSettings");
+            cout << "saving cam position" << endl;
+            ofxSaveCamera(cam, "ofEasyCamSettings");
             break;
             
         case 'l':
             cout << "loading cam position" << endl;
-           // ofxLoadCamera(cam,  "ofEasyCamSettings");
+            ofxLoadCamera(cam,  "ofEasyCamSettings");
             break;
             
         default:

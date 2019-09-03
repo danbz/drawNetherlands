@@ -10,7 +10,7 @@
 #pragma once
 
 #include "ofMain.h"
-/* #include "ofxCameraSaveLoad.h" */
+#include "ofxCameraSaveLoad.h"
 
 class cloud{
     
