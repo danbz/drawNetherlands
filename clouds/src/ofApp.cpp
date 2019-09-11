@@ -39,7 +39,7 @@ void ofApp::setup(){
     ofQuaternion  camOrientation =  ofQuaternion( -0.05, 0.37, 0.18, 0.92);
     cam.setGlobalOrientation(camOrientation);
     cam.setGlobalPosition(85, 10, 85);
-    
+    cam.setFarClip(4000);
      ofxLoadCamera(cam,  "ofEasyCamSettings" );
     
     // light setup
@@ -52,7 +52,7 @@ void ofApp::setup(){
     ground.set( sceneWidth,  sceneWidth, 1 );
     ground.setPosition( -sceneWidth/2, 0, 0 );
     ground.rotateDeg(90, 1, 0, 0);
-    ofColor groundColor = (155, ofRandom(100)+155, 155);
+    ofColor groundColor = (175, ofRandom(80)+175, 175);
     for (int i =0;i < 6; i ++){
         ground.setSideColor(i, groundColor);
         
@@ -84,7 +84,7 @@ void ofApp::draw(){
     light.enable();
     cam.begin();
     
-    ground.draw();
+    // ground.draw();
     //road.draw();
     for (int i=0; i < clouds.size(); i++){
         clouds[i].draw();
@@ -201,7 +201,7 @@ cloud::cloud(){
     float minSpeed = 0.01;
     float minWidth = 10;
     float minHeight = 3;
-    boxColor = ofColor(100, 100, ofRandom(100)+100); // pale blue-ish
+    boxColor = ofColor(200, 200, ofRandom(55)+200); // pale blue-ish
     if (ofRandom(500) > 499){
         boxColor = ofColor(55, 60, ofRandom(200)+55); // random blue cloud as 1 in 1000
         maxSpeed = 2.0; // make it a fast cloud
@@ -238,7 +238,7 @@ void cloud::updateLocation(){
     int farClip = -sceneWidth/2;
     int nearClip = sceneWidth/2;
     if (box.getPosition().z > nearClip){
-        box.setPosition(ofRandom(laneWidth) * cloudSize, box.getPosition().y, farClip);
+        box.setPosition( - ofRandom(sceneDepth), box.getPosition().y, farClip);
     }
     box.setPosition(box.getPosition().x, box.getPosition().y, box.getPosition().z + speed);
 }
@@ -291,7 +291,6 @@ void scenery::draw(){
 void scenery::updateLocation(){
     int farClip = -sceneWidth/2;
     int nearClip = sceneWidth/2;
-    int sceneryLanes = 20;
     float size = 100.0;
     
     if (box.getPosition().z <farClip){
@@ -307,17 +306,17 @@ void scenery::setNewPosition(){
     int farClip = -sceneWidth/2;
     int nearClip = sceneWidth/2;
     int sceneryLanes = 40;
-    float size = 80.0;
-    float widthRatio = 0.1;
-    float heightRatio = 0.4;
+    float size = 500.0;
+    float widthRatio = 1;
+    float heightRatio = 0.1;
     float spread = abs(farClip) + nearClip;
     float minWidth = 3;
-    float minHeight = 3;
+    float minHeight = 0.1;
     float boxbaseColor = ofRandom(50) + 20;
     float colorOffset = 20;
-    float xPosition = ofRandom(sceneryLanes) * size;
+    float xPosition =  ofRandom(sceneDepth);
     boxColor = ofColor(boxbaseColor, boxbaseColor + ofRandom(colorOffset), boxbaseColor);
-    box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight * ofRandom(xPosition/20.0), ofRandom(size)+ 2 * ofRandom(xPosition/20.0));
+    box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight, ofRandom(size)+ 2 );
     box.setPosition(- xPosition, box.getHeight()/2, ofRandom(spread)+spread/2);
     for (int i =0;i < 6; i ++){
         box.setSideColor(i, boxColor);
