@@ -10,7 +10,7 @@
 
 #include "ofApp.h"
 
-#define sceneWidth 4000
+#define sceneWidth 8000
 #define sceneDepth 4000
 #define laneWidth 6
 #define cloudSize 100
@@ -18,8 +18,8 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    int maxClouds = 1000;
-    int maxScenery = 500;
+    int maxClouds = 500;
+    int maxScenery = 2000;
     //sceneWidth = sceneDepth = 4000;
    // roadWidth = laneWidth * truckSize * 2 + truckSize;
     b_showGui = false;
@@ -40,7 +40,7 @@ void ofApp::setup(){
     cam.setGlobalOrientation(camOrientation);
     cam.setGlobalPosition(85, 10, 85);
     cam.setFarClip(4000);
-     ofxLoadCamera(cam,  "ofEasyCamSettings" );
+    ofxLoadCamera(cam,  "ofEasyCamSettings" );
     
     // light setup
     light.setGlobalPosition(0, 500, 2000);
