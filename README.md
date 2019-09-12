@@ -9,4 +9,5 @@ generative sketches inspired by landscape observations
 * tankers at sea
 
 ![screenshot](trucks.png)
-trucks screenshot
+
+![screenshot](clouds.png)
