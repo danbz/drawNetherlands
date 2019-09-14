@@ -21,7 +21,6 @@ void ofApp::setup(){
     int maxClouds = 500;
     int maxScenery = 2000;
     //sceneWidth = sceneDepth = 4000;
-   // roadWidth = laneWidth * truckSize * 2 + truckSize;
     b_showGui = false;
     
     for (int i=0;i<maxClouds;i++){
@@ -57,15 +56,6 @@ void ofApp::setup(){
         ground.setSideColor(i, groundColor);
         
     }
-//    road.set( sceneWidth, roadWidth, 2);
-//    road.setPosition( 0, -2 , 0 );
-//    road.rotateDeg( 90, 1, 0, 0 );
-//    road.rotateDeg( 90, 0, 1, 0 );
-//    ofColor roadColor = (75);
-//    for (int i =0;i < 6; i ++){
-//        road.setSideColor(i, roadColor);
-//
-//    }
 }
 
 //--------------------------------------------------------------
@@ -144,50 +134,6 @@ void ofApp::keyReleased(int key){
     
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-    
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-    
-}
 
 //--------------------------------------------------------------
 
@@ -248,25 +194,6 @@ void cloud::updateLocation(){
 scenery::scenery(){
     // scenery constructor
     speed = 1.0;
-    //    int farClip = -2000;
-    //    int nearClip = 2000;
-    //    int sceneryLanes = 20;
-    //    float size = 100.0;
-    //    float widthRatio = 0.1;
-    //    float heightRatio = 0.5;
-    //    float spread = abs(farClip) + nearClip;
-    //    float minWidth = 3;
-    //    float minHeight = 3;
-    //    float boxbaseColor = ofRandom(50) + 10;
-    //    float colorOffset = 1;
-    //    float xPosition = ofRandom(sceneryLanes) * size;
-    //    boxColor = ofColor(boxbaseColor, boxbaseColor + ofRandom(colorOffset), boxbaseColor);
-    //    box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight * ofRandom(xPosition/20.0), ofRandom(size)+ 2 * ofRandom(xPosition/20.0));
-    //    box.setPosition(- xPosition, box.getHeight()/2, ofRandom(spread));
-    //    for (int i =0;i < 6; i ++){
-    //        box.setSideColor(i, boxColor);
-    //
-    //    }
     setNewPosition();
 }
 
