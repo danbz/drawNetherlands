@@ -15,12 +15,14 @@
 class cloud{
     
 public:
-    ofBoxPrimitive box;
+    ofBoxPrimitive box, parentBox, subBox;
     ofColor boxColor;
     ofPoint location;
+    vector<ofBoxPrimitive> boxes;
     float speed;
     void draw();
     void updateLocation();
+    void setCloudParent();
     cloud(); // constructor
     ~cloud(); // destructor
 };
@@ -49,8 +51,8 @@ public:
     
     void keyPressed(int key);
     void keyReleased(int key);
+    void setCloudParents();
 
-    
     ofEasyCam cam;
     vector<cloud> clouds;
     vector<scenery> landscape;
