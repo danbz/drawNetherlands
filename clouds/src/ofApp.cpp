@@ -10,16 +10,16 @@
 
 #include "ofApp.h"
 
-#define sceneWidth 4000
-#define sceneDepth 2000
+#define sceneWidth 8000
+#define sceneDepth 4000
 #define laneWidth 6
 #define cloudSize 100
 #define cloudCeiling 500
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    int maxClouds = 100;
-    int maxScenery = 100;
+    int maxClouds = 500;
+    int maxScenery = 1000;
     //sceneWidth = sceneDepth = 4000;
     b_showGui = false;
     
@@ -144,24 +144,22 @@ cloud::cloud(){
     int nearClip = sceneWidth/2;
     float widthRatio = 0.6;
     float heightRatio = 0.5;
-    float maxSpeed = 0.5;
+    float maxSpeed = 0.3;
     float minSpeed = 0.01;
-//    float minWidth = 10;
-//    float minHeight = 3;
     
     speed = ofRandom(maxSpeed)+minSpeed;
     
     // new cloud routine
     float cloud_subRatio = 0.9;
     float min_width = 10;
-    float max_width = 40;
+    float max_width = 60;
     float min_height= 10;
     float max_height = 20;
     float min_depth = 20;
-    float max_depth = 40.0;
+    float max_depth = 60.0;
     float sky_width =0;
     float sky_depth =0;
-    float subBoxLevels = 4;
+    float subBoxLevels = 5;
     float pos_x = ofRandom(-sky_width/2, sky_width/2);
     float pos_y = 0;
     float pos_z = ofRandom(-sky_depth/2, sky_depth/2);
@@ -172,11 +170,10 @@ cloud::cloud(){
     cout << "parent of subBox  is " << subBox.getParent()  << endl;
     parentBox.set(width, height, depth);
     parentBox.setGlobalPosition( - ofRandom(sceneDepth) , cloudCeiling+ ofRandom(-cloudCeiling/10.0, cloudCeiling/10.0), farClip);
-    ofColor boxColor = ofColor(100, 100, ofRandom(55)+200); // pale blue-ish
+    ofColor boxColor = ofColor(180, 180, ofRandom(55)+180); // pale blue-ish
     for (int i =0;i < 6; i ++){
         parentBox.setSideColor(i, boxColor);
     }
-    // boxes.push_back(parentBox); // push parent box to vector of all boxes
     cout << "constructed parent box " << endl;
     
     for (int i=0;i<subBoxLevels; i++){
@@ -210,7 +207,6 @@ cloud::cloud(){
                 break;
         }
          boxColor = ofColor(200, 200, ofRandom(55)+200); // pale blue-ish
-       // boxColor = ofColor(200, 0, 0); // red debug
         for (int i =0;i < 6; i ++){
             newBox.setSideColor(i, boxColor);
         }
@@ -227,11 +223,10 @@ cloud::~cloud(){
 //--------------------------------------------------------------
 
 void cloud::draw(){
-    // box.draw();
-    // box.drawWireframe();
-    parentBox.drawWireframe();
+  
+    parentBox.draw();
     for (int i=0; i<boxes.size(); i++){
-        boxes[i].drawWireframe();
+        boxes[i].draw();
         // cout << "draw box " << endl;
     }
 }
