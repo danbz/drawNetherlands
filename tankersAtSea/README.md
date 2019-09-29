@@ -1,7 +1,7 @@
 # Draw test for landscape observations
 ©2019 daniel buzzo. dan@buzzo.com  http://buzzo.com
 
-## tankers at sea off the Zaandvoort coast
+## tankers at anchor off the Zaandvoort coast
 
 as seen from KLM embrayer BRS-AMS
 
