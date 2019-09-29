@@ -10,4 +10,4 @@ generative sketches inspired by landscape observations
 
 ![screenshot](trucks.png)
 
-![screenshot](clouds.png)
+![screenshot](clouds/clouds-screenshot.png)
