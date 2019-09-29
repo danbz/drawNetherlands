@@ -20,6 +20,8 @@ generative sketches inspired by landscape observations
 * 's' save new camera position
 * 'h' zero centre camera postion
 
+
+* repositories (mostly) include compiled executable binaries for OSX
 ![screenshot](trucks.png)
 
 ![screenshot](clouds/clouds-screenshot.png)
