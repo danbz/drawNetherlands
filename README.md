@@ -1,17 +1,19 @@
 # drawNetherlands
+©2019 daniel buzzo. dan@buzzo.com  http://buzzo.com
 
 generative sketches inspired by landscape observations
 
-* trucks - working
+* Trucks - working
 * train windows
 * Clouds over Oxfordshire - working
 * from the air
-* tankers at sea off the Zaandvoort coast - working
+* Tankers at sea off the Zaandvoort coast - working
 
 ### dependencies
+* C++ and openFrameworks - openframeworks.cc
+* ofxCameraSaveLoad https://github.com/roymacdonald/ofxCameraSaveLoad
 
-ofxCameraSaveLoad https://github.com/roymacdonald/ofxCameraSaveLoad
-
+### key controls
 * 'f' toggle full screen
 * 'g' show text gui
 * 'l' load saved camera position
