@@ -7,7 +7,7 @@ generative sketches inspired by landscape observations
 * train windows
 * Clouds over Oxfordshire - working
 * from the air
-* Tankers at anchor off the Zaandvoort coast - working
+* Tankers lying at anchor off the Zaandvoort coast - working
 
 ### dependencies
 * C++ and openFrameworks - openframeworks.cc
