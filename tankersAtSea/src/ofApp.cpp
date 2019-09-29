@@ -49,12 +49,11 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    //float t = ofGetSystemTimeMillis();
-    float t = ofGetElapsedTimef();
-    windDirection += ofSignedNoise(t)  ;
+    float t = ofGetElapsedTimef()/10;
+    windDirection += ofSignedNoise(t) ;
     cout << windDirection << endl;
     for (int i=0; i<tankers.size(); i++){
-        tankers[i].updatePosition();
+        tankers[i].updatePosition(windDirection);
     }
 }
 
@@ -64,12 +63,9 @@ void ofApp::draw(){
     light.enable();
     cam.begin();
     for (int i=0; i<tankers.size(); i++){
-        ofPushMatrix();
-        ofTranslate(tankers[i].getPosition());
-        ofRotateYDeg(windDirection);
+        // ofPushMatrix();
         tankers[i].draw();
-        ofPopMatrix();
-
+       //  ofPopMatrix();
     }
     cam.end();
     light.disable();
@@ -154,9 +150,10 @@ tanker::~tanker(){
 //--------------------------------------------------------------
 
 void tanker::draw(){
-//    ofPushMatrix();
-//    ofTranslate(getPosition());
-    ofTranslate(0,0,tankerHull.getDepth()*1.5);
+    ofPushMatrix();
+    ofTranslate(getPosition());
+    ofRotateYDeg(getRotation());
+    ofTranslate(0,0,tankerHull.getDepth()*1.2);
     tankerHull.draw();
     ofTranslate(0,0, tankerHull.getDepth()/2);
     ofRotateXDeg(90);
@@ -164,16 +161,22 @@ void tanker::draw(){
     for (int i = 0; i< wake.size(); i++){
         ofDrawCircle(wake[i],wake.size()-i);
     }
-    //ofPopMatrix();
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
-void tanker::updatePosition(){
-    setPosition(getPosition()+motion);
+void tanker::updatePosition(float windDirection){
+    float rotationDiff = ofAngleDifferenceDegrees(getRotation(), windDirection);
+    //setRotation(rotationDiff / tankerHull.getDepth());
+    setRotation(getRotation()+rotationDiff/(tankerHull.getDepth()*10) );
+
+    
     for (int i=0; i<wake.size()-1; i++){
         wake[i+1]=wake[i];
         wake[i].x=0;
-        wake[i].y=i*tankerHull.getDepth()/20;
+        wake[i].y=i*tankerHull.getDepth()/2;
     }
+    
+    setPosition(getPosition()+motion);
     
 }
 //--------------------------------------------------------------
@@ -194,4 +197,16 @@ void tanker::setPosition(ofVec3f newPosition){
 
 ofVec3f tanker::getPosition(){
     return position;
+}
+
+//--------------------------------------------------------------
+
+void tanker::setRotation(float newRotation){
+    rotation = newRotation;
+}
+
+//--------------------------------------------------------------
+
+float tanker::getRotation(){
+    return rotation;
 }

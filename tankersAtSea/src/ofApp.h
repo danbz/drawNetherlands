@@ -21,8 +21,10 @@ public:
     ofVec3f getPosition();
     void setPosition(ofVec3f position);
     void setPosition(int x, int y, int z);
+    float getRotation();
+    void setRotation(float rotation);
     void draw();
-    void updatePosition();
+    void updatePosition(float windDirection);
     vector<ofPoint>wake;
     tanker(); // constructor
     ~tanker(); // destructor
