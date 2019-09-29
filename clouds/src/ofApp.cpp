@@ -11,23 +11,24 @@
 #include "ofApp.h"
 
 #define sceneWidth 8000
-#define sceneDepth 4000
+#define sceneDepth 8000
 #define laneWidth 6
-#define cloudSize 100
+#define cloudSize 400
 #define cloudCeiling 500
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    int maxClouds = 500;
-    int maxScenery = 1000;
-    //sceneWidth = sceneDepth = 4000;
+    int maxClouds = 1000;
+    int maxScenery = 4000;
     b_showGui = false;
     
     for (int i=0;i<maxClouds;i++){
         cloud newCloud;
+        ofVec3f newCloudPosition;
+        newCloudPosition.set(ofRandom(-sceneWidth/2, sceneWidth/2), cloudCeiling, ofRandom(-sceneDepth/2, sceneDepth/2));
+        newCloud.setPosition(newCloudPosition);
         clouds.push_back(newCloud);
     }
-    setCloudParents();
     
     for (int i=0;i<maxScenery;i++){
         scenery newScenery;
@@ -74,9 +75,7 @@ void ofApp::draw(){
     ofEnableDepthTest();
     light.enable();
     cam.begin();
-    
-    // ground.draw();
-    //road.draw();
+
     for (int i=0; i < clouds.size(); i++){
         clouds[i].draw();
     }
@@ -96,6 +95,7 @@ void ofApp::draw(){
         ofDrawBitmapString(ofGetFrameRate(), 10, 10);
         // cout << "pos " << cam.getGlobalPosition() << " orient " << cam.getGlobalOrientation() << endl;
     }
+    
 }
 
 //--------------------------------------------------------------
@@ -135,7 +135,6 @@ void ofApp::keyReleased(int key){
     
 }
 
-
 //--------------------------------------------------------------
 
 cloud::cloud(){
@@ -144,11 +143,10 @@ cloud::cloud(){
     int nearClip = sceneWidth/2;
     float widthRatio = 0.6;
     float heightRatio = 0.5;
-    float maxSpeed = 0.3;
+    float maxSpeed = 0.1;
     float minSpeed = 0.01;
     
     speed = ofRandom(maxSpeed)+minSpeed;
-    
     // new cloud routine
     float cloud_subRatio = 0.9;
     float min_width = 10;
@@ -157,61 +155,67 @@ cloud::cloud(){
     float max_height = 20;
     float min_depth = 20;
     float max_depth = 60.0;
-    float sky_width =0;
-    float sky_depth =0;
     float subBoxLevels = 5;
-    float pos_x = ofRandom(-sky_width/2, sky_width/2);
+    float pos_x = 0;
     float pos_y = 0;
-    float pos_z = ofRandom(-sky_depth/2, sky_depth/2);
+    float pos_z = 0;
     float width = ofRandom(min_width, max_width);
     float height = ofRandom(min_height, max_height);
     float depth = ofRandom(min_depth, max_depth);
     // create parent box
-    cout << "parent of subBox  is " << subBox.getParent()  << endl;
-    parentBox.set(width, height, depth);
-    parentBox.setGlobalPosition( - ofRandom(sceneDepth) , cloudCeiling+ ofRandom(-cloudCeiling/10.0, cloudCeiling/10.0), farClip);
+    ofBoxPrimitive newBox;
+    newBox.setMode(OF_PRIMITIVE_TRIANGLES);
+    newBox.set(width, height, depth);
+    //newBox.setGlobalPosition( - ofRandom(sceneDepth) , cloudCeiling+ ofRandom(-cloudCeiling/10.0, cloudCeiling/10.0), farClip);
     ofColor boxColor = ofColor(180, 180, ofRandom(55)+180); // pale blue-ish
     for (int i =0;i < 6; i ++){
-        parentBox.setSideColor(i, boxColor);
+        newBox.setSideColor(i, boxColor);
     }
-    cout << "constructed parent box " << endl;
+    cloudMesh.append(newBox.getMesh());
     
-    for (int i=0;i<subBoxLevels; i++){
-        // create sub boxes
+    for (int i=0;i<subBoxLevels; i++){ // create sub boxes
         ofBoxPrimitive newBox;
-        
+        newBox.setResolution(1);
+        ofMesh newMesh;
+        ofVec3f transformVector;
         float ratio = ofRandom(cloud_subRatio);
         newBox.set(width * ratio, height * ratio, depth * ratio);
         int corner = ofRandom(5);
         switch (corner) {
-            case 0: //  sub box on north side of parent
-                newBox.move(pos_x , pos_y  , pos_z - depth + depth * ratio /2);
+            case 0: //  sub box on south side of parent
+                transformVector = *new ofVec3f(pos_x , pos_y  , pos_z  + depth/2 + depth * ratio /2);
                 break;
-            case 1: // sub box on south side of parent
-                newBox.move(pos_x , pos_y  , pos_z + depth - depth * ratio /2);
+            case 1: // sub box on north side of parent
+                transformVector = *new ofVec3f(pos_x , pos_y  , pos_z - depth/2 - depth * ratio /2);
                 break;
             case 2: // sub box on east side of parent
-                newBox.move(pos_x + width - width * ratio /2, pos_y  , pos_z) ;
+                transformVector = *new ofVec3f(pos_x + (width/2) + width * (ratio /2), pos_y  , pos_z) ;
                 break;
             case 3: // sub box on west side of parent
-                newBox.move(pos_x - width + width * ratio /2, pos_y  , pos_z) ;
+                transformVector = *new ofVec3f(pos_x - (width/2) - width * (ratio /2), pos_y  , pos_z) ;
                 break;
             case 4: // sub box on top side of parent
-                newBox.move(pos_x , pos_y + height - height * ratio /2  , pos_z) ;
+                transformVector = *new ofVec3f(pos_x , pos_y + height/2 + height * ratio /2  , pos_z) ;
                 break;
             case 5: // sub box on bottom side of parent
-                newBox.move(pos_x , pos_y - height + height * ratio /2  , pos_z) ;
+                transformVector = *new ofVec3f(pos_x , pos_y + height/2 - height * ratio /2  , pos_z) ;
                 break;
-    
+                
             default:
                 break;
+                
         }
-         boxColor = ofColor(200, 200, ofRandom(55)+200); // pale blue-ish
+        boxColor = ofColor(200, 200, ofRandom(55)+200); // pale blue-ish
         for (int i =0;i < 6; i ++){
             newBox.setSideColor(i, boxColor);
         }
-        boxes.push_back(newBox);
+        newMesh=newBox.getMesh();
+        for (int x=0; x< newMesh.getNumVertices();x++){
+            newMesh.getVertices()[x] += transformVector;
+        }
+        cloudMesh.append(newMesh);
     }
+    cloudVboMesh=cloudMesh;
 }
 
 //--------------------------------------------------------------
@@ -224,11 +228,28 @@ cloud::~cloud(){
 
 void cloud::draw(){
   
-    parentBox.draw();
-    for (int i=0; i<boxes.size(); i++){
-        boxes[i].draw();
-        // cout << "draw box " << endl;
-    }
+    ofPushMatrix();
+    ofTranslate(getPosition());
+   cloudMesh.draw();
+    //cloudVboMesh.draw();
+    ofPopMatrix();
+
+}
+
+//--------------------------------------------------------------
+
+void cloud::setPosition(ofVec3f newPosition){
+    cloudPosition = newPosition;
+}
+//--------------------------------------------------------------
+void cloud::setPosition(float x, float y, float z ){
+    ofVec3f newPosition;
+    newPosition.set(x,y,z);
+    setPosition(newPosition);
+}
+//--------------------------------------------------------------
+ofVec3f cloud::getPosition(){
+    return cloudPosition;
 }
 
 //--------------------------------------------------------------
@@ -236,32 +257,13 @@ void cloud::draw(){
 void cloud::updateLocation(){
     int farClip = -sceneWidth/2;
     int nearClip = sceneWidth/2;
-//    if (box.getPosition().z > nearClip){
-//        box.setPosition( - ofRandom(sceneDepth), box.getPosition().y, farClip);
-//    }
-//    box.setPosition(box.getPosition().x, box.getPosition().y, box.getPosition().z + speed);
-    
-//    if (boxes[0].getGlobalPosition().z > nearClip){
-//        boxes[0].move( - ofRandom(sceneDepth), box.getGlobalPosition().y, farClip);
-//    }
-//    boxes[0].move(0, 0, speed);
-    
-//    if (parentBox.getGlobalPosition().z > nearClip){
-//        parentBox.move( - ofRandom(sceneDepth), parentBox.getGlobalPosition().y, farClip);
-//    }
-    parentBox.move(0, 0, speed);
-}
-
-//--------------------------------------------------------------
-void cloud::setCloudParent(){
-    // set parent for all sub boxes
-    for (int i=0; i< boxes.size(); i++){
-        boxes[i].setParent(parentBox);
-        cout << "set parent for subbox " << i << endl;
+    if (getPosition().z > nearClip){
+        setPosition( - ofRandom(-sceneDepth/2, sceneDepth/2), getPosition().y, farClip);
     }
+    setPosition(getPosition().x, getPosition().y, getPosition().z + speed);
 }
-//--------------------------------------------------------------
 
+//--------------------------------------------------------------
 
 scenery::scenery(){
     // scenery constructor
@@ -311,7 +313,7 @@ void scenery::setNewPosition(){
     float minHeight = 0.1;
     float boxbaseColor = ofRandom(50) + 20;
     float colorOffset = 20;
-    float xPosition =  ofRandom(sceneDepth);
+    float xPosition =  ofRandom(-sceneDepth/2, sceneDepth/2);
     boxColor = ofColor(boxbaseColor, boxbaseColor + ofRandom(colorOffset), boxbaseColor);
     box.set(ofRandom(size * widthRatio)+ minWidth, ofRandom(size * heightRatio)+minHeight, ofRandom(size)+ 2 );
     box.setPosition(- xPosition, box.getHeight()/2, ofRandom(spread)+spread/2);
@@ -323,10 +325,3 @@ void scenery::setNewPosition(){
 
 //--------------------------------------------------------------
 
-void ofApp::setCloudParents(){
-    for (int j =0; j < clouds.size(); j++){
-        clouds[j].setCloudParent();
-       
-    }
-    
-}

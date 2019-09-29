@@ -15,14 +15,20 @@
 class cloud{
     
 public:
-    ofBoxPrimitive box, parentBox, subBox;
+    ofBoxPrimitive box, subBox;
     ofColor boxColor;
     ofPoint location;
     vector<ofBoxPrimitive> boxes;
+    ofMesh cloudMesh;
+    ofVboMesh cloudVboMesh;
+    ofVec3f cloudPosition;
     float speed;
+    
     void draw();
     void updateLocation();
-    void setCloudParent();
+    void setPosition(ofVec3f position);
+    void setPosition(float x, float y, float z );
+    ofVec3f getPosition();
     cloud(); // constructor
     ~cloud(); // destructor
 };
@@ -31,6 +37,7 @@ class scenery{
     
 public:
     ofBoxPrimitive box;
+    ofVboMesh vboBox;
     ofColor boxColor;
     ofPoint location;
     float speed;
