@@ -49,10 +49,10 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-   // float t = ofGetSystemTimeMillis();
-    float t = ofGetSeconds();
-
-    windDirection += ofRandom(-ofNoise(t) ,ofNoise(t));
+    //float t = ofGetSystemTimeMillis();
+    float t = ofGetElapsedTimef();
+    windDirection += ofSignedNoise(t)  ;
+    cout << windDirection << endl;
     for (int i=0; i<tankers.size(); i++){
         tankers[i].updatePosition();
     }
@@ -128,10 +128,18 @@ tanker::tanker(){
     // tanker constructor
     float size = ofRandom(50,400);
     float width_length_ratio = 0.2;
+    int wakeLength = 20;
     rotation =0;
     motion.set(0,0,0);
     tankerHull.set(size*width_length_ratio, size*width_length_ratio, size);
     // tankerHull.set(10, 10, 50);
+    
+    // setup wake
+    for (int i = 0; i< wakeLength; i++){
+        ofPoint newPoint;
+        newPoint.set(0,0);
+        wake.push_back(newPoint);
+    }
 
 }
 
@@ -149,12 +157,23 @@ void tanker::draw(){
 //    ofPushMatrix();
 //    ofTranslate(getPosition());
     ofTranslate(0,0,tankerHull.getDepth()*1.5);
-    tankerHull.draw();;
+    tankerHull.draw();
+    ofTranslate(0,0, tankerHull.getDepth()/2);
+    ofRotateXDeg(90);
+    ofTranslate(0, 0, tankerHull.getHeight()/2);
+    for (int i = 0; i< wake.size(); i++){
+        ofDrawCircle(wake[i],wake.size()-i);
+    }
     //ofPopMatrix();
 }
 //--------------------------------------------------------------
 void tanker::updatePosition(){
     setPosition(getPosition()+motion);
+    for (int i=0; i<wake.size()-1; i++){
+        wake[i+1]=wake[i];
+        wake[i].x=0;
+        wake[i].y=i*tankerHull.getDepth()/20;
+    }
     
 }
 //--------------------------------------------------------------

@@ -23,6 +23,7 @@ public:
     void setPosition(int x, int y, int z);
     void draw();
     void updatePosition();
+    vector<ofPoint>wake;
     tanker(); // constructor
     ~tanker(); // destructor
     
